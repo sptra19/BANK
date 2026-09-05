@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brankas Aris & Fifi 💖</title>
+    <title>Brankas Aris & Fifi </title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -127,7 +127,7 @@
                             <div>
                                 <label class="block text-xs font-bold text-slate-500 mb-1.5">Kategori</label>
                                 <select id="kategori" required class="w-full px-4 py-3 rounded-xl border border-rose-100 bg-white focus:border-rose-400 focus:ring-2 focus:ring-rose-100 outline-none text-sm font-medium transition-all appearance-none">
-                                    <option value="Sisa Uang Jajan">Sisa Uang Jajan</option>
+                                    <option value="Sisa Uang ">Sisa Uang </option>
                                     <option value="Gaji / Pendapatan">Gaji / Pendapatan</option>
                                     <option value="Hadiah / Bonus">Hadiah / Bonus</option>
                                     <option value="Lainnya">Lainnya</option>
@@ -198,7 +198,7 @@
                         <div id="riwayatKosong" class="flex-1 flex flex-col items-center justify-center text-rose-300 hidden">
                             <i class="fas fa-box-open text-5xl mb-3 opacity-50"></i>
                             <p class="font-bold">Tidak ada riwayat.</p>
-                            <p class="text-sm">Yuk mulai isi brankas cinta kalian! 💖</p>
+                            <p class="text-sm">AYOOOO MENABUNGGGGG</p>
                         </div>
 
                         <div id="daftarRiwayat" class="space-y-4 overflow-y-auto pr-2 flex-1 pb-4">
