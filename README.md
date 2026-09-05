@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brankas Aris & Fifi </title>
+    <title>Tabungan Aris & Fifi</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -17,31 +17,28 @@
         .pink-gradient { background: linear-gradient(135deg, #f43f5e 0%, #fb7185 100%); }
         .tab-active { background: #f43f5e; color: white; }
         .tab-inactive { background: #ffe4e6; color: #fda4af; }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #fda4af; border-radius: 10px; }
         .swal2-html-container { margin: 1em 0 0 0 !important; }
     </style>
 </head>
-<body class="text-slate-800 antialiased h-screen overflow-hidden flex flex-col">
+<body class="text-slate-800 antialiased min-h-screen flex flex-col">
 
     <!-- LOGIN SCREEN -->
     <div id="loginScreen" class="fixed inset-0 z-50 pink-gradient flex flex-col items-center justify-center p-4">
         <div class="bg-white w-full max-w-sm rounded-3xl p-8 text-center shadow-2xl">
             <div class="w-20 h-20 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4 shadow-inner">
-                <i class="fas fa-heart text-4xl text-rose-500"></i>
+                <i class="fas fa-lock text-4xl text-rose-500"></i>
             </div>
-            <h1 class="text-2xl font-bold text-slate-800 mb-1">Brankas Cinta</h1>
-            <p class="text-sm text-slate-500 mb-6">Masukkan PIN rahasia Aris & Fifi</p>
+            <h1 class="text-2xl font-bold text-slate-800 mb-1">Akses Masuk</h1>
+            <p class="text-sm text-slate-500 mb-6">Masukkan PIN 140826</p>
             <input type="password" id="pinInput" placeholder="••••••" class="w-full text-center text-3xl tracking-widest px-4 py-3 rounded-2xl border-2 border-rose-100 focus:border-rose-500 focus:outline-none mb-6 font-bold text-rose-600 bg-rose-50">
-            <button onclick="window.cekPin()" class="w-full pink-gradient text-white font-bold py-3.5 rounded-2xl shadow-lg hover:shadow-xl transition-all">Buka Brankas <i class="fas fa-unlock ml-2"></i></button>
+            <button onclick="window.cekPin()" class="w-full pink-gradient text-white font-bold py-3.5 rounded-2xl shadow-lg hover:shadow-xl transition-all">Buka <i class="fas fa-unlock ml-2"></i></button>
         </div>
     </div>
 
     <!-- MAIN APP -->
-    <div id="mainApp" class="hidden h-full flex flex-col">
+    <div id="mainApp" class="hidden flex-1 flex flex-col">
         <!-- Navbar -->
-        <nav class="bg-white px-6 py-4 flex justify-between items-center border-b border-rose-100 z-10 shadow-sm">
+        <nav class="bg-white px-6 py-4 flex justify-between items-center border-b border-rose-100 z-10 shadow-sm sticky top-0">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 pink-gradient rounded-xl flex items-center justify-center text-white shadow-md font-bold text-lg">AF</div>
                 <div>
@@ -55,7 +52,7 @@
             </div>
         </nav>
 
-        <div class="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
+        <div class="p-4 md:p-6 lg:p-8">
             <div class="max-w-6xl mx-auto space-y-6">
                 
                 <!-- SUMMARY & TARGET -->
@@ -127,7 +124,7 @@
                             <div>
                                 <label class="block text-xs font-bold text-slate-500 mb-1.5">Kategori</label>
                                 <select id="kategori" required class="w-full px-4 py-3 rounded-xl border border-rose-100 bg-white focus:border-rose-400 focus:ring-2 focus:ring-rose-100 outline-none text-sm font-medium transition-all appearance-none">
-                                    <option value="Sisa Uang ">Sisa Uang </option>
+                                    <option value="Sisa Uang Jajan">Sisa Uang Jajan</option>
                                     <option value="Gaji / Pendapatan">Gaji / Pendapatan</option>
                                     <option value="Hadiah / Bonus">Hadiah / Bonus</option>
                                     <option value="Lainnya">Lainnya</option>
@@ -165,7 +162,7 @@
                             </div>
 
                             <div>
-                                <label class="block text-xs font-bold text-slate-500 mb-1.5">Keterangan (Opsional)</label>
+                                <label class="block text-xs font-bold text-slate-500 mb-1.5">Keterangan Tambahan</label>
                                 <input type="text" id="catatan" placeholder="Keterangan..." class="w-full px-4 py-3 rounded-xl border border-rose-100 bg-white focus:border-rose-400 focus:ring-2 focus:ring-rose-100 outline-none text-sm font-medium transition-all">
                             </div>
 
@@ -176,7 +173,7 @@
                     </div>
 
                     <!-- RIWAYAT LIST -->
-                    <div class="lg:col-span-7 glass-card p-6 lg:p-8 flex flex-col h-[650px]">
+                    <div class="lg:col-span-7 glass-card p-6 lg:p-8 flex flex-col min-h-[500px]">
                         
                         <!-- Header Riwayat dengan Filter & Rekap -->
                         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 border-b border-rose-100 pb-4 gap-3">
@@ -195,13 +192,12 @@
                             </div>
                         </div>
                         
-                        <div id="riwayatKosong" class="flex-1 flex flex-col items-center justify-center text-rose-300 hidden">
+                        <div id="riwayatKosong" class="flex-1 flex flex-col items-center justify-center text-rose-300 hidden py-10">
                             <i class="fas fa-box-open text-5xl mb-3 opacity-50"></i>
-                            <p class="font-bold">Tidak ada riwayat.</p>
-                            <p class="text-sm">AYOOOO MENABUNGGGGG</p>
+                            <p class="font-bold">Tidak ada catatan</p>
                         </div>
 
-                        <div id="daftarRiwayat" class="space-y-4 overflow-y-auto pr-2 flex-1 pb-4">
+                        <div id="daftarRiwayat" class="space-y-4 flex-1">
                             <!-- Render by Firebase -->
                         </div>
                     </div>
@@ -212,10 +208,10 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
         // ==========================================
-        // FIREBASE CONFIG MILIKMU
+        // KONFIGURASI FIREBASE OTOMATIS
         // ==========================================
         const firebaseConfig = {
             apiKey: "AIzaSyBiaz5nbZxEQtTzSCLaqD66m7aIK9mxSug",
@@ -232,7 +228,7 @@
         const db = getFirestore(app);
         
         const PIN_RAHASIA = "140826"; 
-        const TARGET_TABUNGAN = 10000000; // Rp 10 Juta
+        const TARGET_TABUNGAN = 10000000; 
         let dbTransaksi = [];
         
         document.getElementById('tanggal').valueAsDate = new Date();
@@ -293,7 +289,6 @@
             
             let total = 0, masukBulan = 0, keluarBulan = 0;
 
-            // 1. Hitung total berdasarkan SELURUH data (Dashboard)
             dbTransaksi.forEach(item => {
                 const itemDate = new Date(item.tanggal);
                 const isBulanIni = itemDate.getMonth() === now.getMonth() && itemDate.getFullYear() === now.getFullYear();
@@ -307,7 +302,6 @@
                 }
             });
 
-            // 2. Filter data untuk ditampilkan di List
             let dataDitampilkan = dbTransaksi.filter(item => {
                 if(filterVal === 'semua') return true;
                 const itemDate = new Date(item.tanggal);
@@ -336,7 +330,7 @@
                     const ruteTransfer = (isNabung && item.via && item.rekening) ? `<br><span class="inline-block mt-1 bg-rose-50 text-rose-500 px-2 py-0.5 rounded text-[10px] font-bold"><i class="fas fa-university"></i> ${item.via} ➔ ${item.rekening}</span>` : '';
                     
                     list.innerHTML += `
-                        <div class="flex items-center justify-between p-4 rounded-2xl bg-white border shadow-sm hover:shadow-md transition-all group">
+                        <div class="flex items-center justify-between p-4 rounded-2xl bg-white border shadow-sm group">
                             <div class="flex items-center gap-4 overflow-hidden">
                                 <div class="w-12 h-12 rounded-full flex-shrink-0 flex items-center justify-center text-lg border ${colorClass}">
                                     <i class="fas ${icon}"></i>
@@ -350,18 +344,15 @@
                                 <span class="font-extrabold text-base whitespace-nowrap ${isNabung ? 'text-emerald-500' : 'text-rose-500'}">
                                     ${isNabung ? '+' : '-'} ${formatRp(item.nominal)}
                                 </span>
-                                <button onclick="window.hapusData('${item.id}')" class="text-slate-300 hover:text-red-500 p-2 rounded-full hover:bg-red-50 opacity-0 group-hover:opacity-100 transition-all"><i class="fas fa-trash-alt"></i></button>
                             </div>
                         </div>`;
                 });
             }
 
-            // Update Dashboard Angka
             document.getElementById('totalSaldo').innerText = formatRp(total);
             document.getElementById('masukBulanIni').innerText = formatRp(masukBulan);
             document.getElementById('keluarBulanIni').innerText = formatRp(keluarBulan);
 
-            // Progress Target
             let persentase = (total / TARGET_TABUNGAN) * 100;
             if(persentase > 100) persentase = 100;
             if(persentase < 0) persentase = 0;
@@ -371,17 +362,15 @@
             
             const sisaTabungan = TARGET_TABUNGAN - total;
             if(sisaTabungan > 0) {
-                document.getElementById('sisaTarget').innerHTML = `Kurang <span class="font-bold drop-shadow-sm">${formatRp(sisaTabungan)}</span> lagi buat capai target! 🔥`;
+                document.getElementById('sisaTarget').innerHTML = `Kurang <span class="font-bold drop-shadow-sm">${formatRp(sisaTabungan)}</span> mencapai target!`;
             } else {
-                document.getElementById('sisaTarget').innerHTML = `Yeay! Target kalian sudah tercapai! 🎉`;
+                document.getElementById('sisaTarget').innerHTML = `Target tercapai!`;
             }
         };
 
-        // --- FITUR REKAP BULANAN (Satu Klik) ---
         window.tampilkanStatistik = () => {
             if(dbTransaksi.length === 0) return Swal.fire('Kosong', 'Belum ada data untuk direkap.', 'info');
             
-            // Mengelompokkan data per bulan
             let rekapBulanan = {};
             dbTransaksi.forEach(item => {
                 const tgl = new Date(item.tanggal);
@@ -393,7 +382,6 @@
                 else rekapBulanan[bulanTahun].keluar += item.nominal;
             });
 
-            // Membuat tampilan HTML untuk SweetAlert
             let htmlRekap = '<div class="space-y-4 text-left max-h-[400px] overflow-y-auto px-2">';
             for(let bln in rekapBulanan) {
                 let saldoBulan = rekapBulanan[bln].masuk - rekapBulanan[bln].keluar;
@@ -409,7 +397,7 @@
             htmlRekap += '</div>';
 
             Swal.fire({
-                title: '📈 Rangkuman Bulanan',
+                title: 'Rangkuman Bulanan',
                 html: htmlRekap,
                 confirmButtonColor: '#f43f5e',
                 confirmButtonText: 'Tutup Rangkuman',
@@ -426,14 +414,13 @@
             const nominalBersih = parseInt(nominalInput.value.replace(/[^0-9]/g, ''));
             
             if(!nominalBersih || nominalBersih <= 0) {
-                Swal.fire('Ups!', 'Nominal uang tidak valid.', 'warning');
+                Swal.fire('Kesalahan', 'Nominal uang tidak valid.', 'warning');
                 btn.disabled = false; btn.innerHTML = "<i class='fas fa-save'></i> Simpan Tabungan"; return;
             }
 
-            // Hitung total saldo terbaru sebelum menarik uang
             const totalSaatIni = dbTransaksi.reduce((acc, curr) => curr.jenis === 'nabung' ? acc + curr.nominal : acc - curr.nominal, 0);
             if(jenis === 'tarik' && nominalBersih > totalSaatIni) {
-                Swal.fire('Saldo Kurang', 'Saldo tabungan tidak cukup untuk ditarik!', 'error');
+                Swal.fire('Saldo Kurang', 'Saldo tabungan tidak cukup untuk ditarik.', 'error');
                 btn.disabled = false; btn.innerHTML = "<i class='fas fa-save'></i> Catat Pengeluaran"; return;
             }
 
@@ -457,7 +444,7 @@
                 
                 Swal.fire({icon: 'success', title: 'Tersimpan!', toast: true, position: 'top-end', showConfirmButton: false, timer: 1500});
             } catch (error) {
-                Swal.fire('Error', 'Gagal menyimpan ke database.', 'error');
+                Swal.fire('Error', 'Gagal menyimpan data.', 'error');
             }
             btn.disabled = false; 
             btn.innerHTML = jenis === 'nabung' ? "<i class='fas fa-save'></i> Simpan Tabungan" : "<i class='fas fa-hand-holding-usd'></i> Catat Pengeluaran";
@@ -519,16 +506,6 @@
             }
         };
 
-        window.hapusData = async (id) => {
-            Swal.fire({
-                title: 'Hapus riwayat?', text: "Data tidak bisa dikembalikan!", icon: 'warning',
-                showCancelButton: true, confirmButtonColor: '#f43f5e', cancelButtonColor: '#cbd5e1',
-                confirmButtonText: 'Ya, hapus!'
-            }).then(async (result) => {
-                if (result.isConfirmed) { await deleteDoc(doc(db, "tabungan_kita", id)); }
-            });
-        };
-
         window.exportExcel = () => {
             if(!dbTransaksi.length) return Swal.fire('Kosong', 'Belum ada data untuk diunduh', 'info');
             const dataSheet = dbTransaksi.map((d, i) => ({
@@ -539,8 +516,8 @@
                 "Keterangan": d.catatan
             }));
             const ws = XLSX.utils.json_to_sheet(dataSheet); const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "Tabungan Cinta");
-            XLSX.writeFile(wb, `Brankas_Cinta_AF.xlsx`);
+            XLSX.utils.book_append_sheet(wb, ws, "Data Tabungan");
+            XLSX.writeFile(wb, `Riwayat_Tabungan.xlsx`);
         };
 
         if(sessionStorage.getItem('auth') === '1') {
