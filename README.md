@@ -20,6 +20,7 @@
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #fda4af; border-radius: 10px; }
+        .swal2-html-container { margin: 1em 0 0 0 !important; }
     </style>
 </head>
 <body class="text-slate-800 antialiased h-screen overflow-hidden flex flex-col">
@@ -151,18 +152,21 @@
                             <!-- Area Transfer Khusus Nabung -->
                             <div id="areaBank" class="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label class="block text-xs font-bold text-slate-500 mb-1.5">Transfer Via</label>
-                                    <input type="text" id="via" required placeholder="Cth: BCA / Dana" class="w-full px-4 py-3 rounded-xl border border-rose-100 bg-white focus:border-rose-400 focus:ring-2 focus:ring-rose-100 outline-none text-sm font-medium transition-all">
+                                    <label class="block text-xs font-bold text-slate-500 mb-1.5">Sumber Dana (Via)</label>
+                                    <input type="text" id="via" required placeholder="Cth: BCA Aris / DANA Fifi" class="w-full px-4 py-3 rounded-xl border border-rose-100 bg-white focus:border-rose-400 focus:ring-2 focus:ring-rose-100 outline-none text-sm font-medium transition-all">
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-bold text-slate-500 mb-1.5">Ke Rekening</label>
-                                    <input type="text" id="rekening" required placeholder="Cth: BNI Fifi" class="w-full px-4 py-3 rounded-xl border border-rose-100 bg-white focus:border-rose-400 focus:ring-2 focus:ring-rose-100 outline-none text-sm font-medium transition-all">
+                                    <label class="block text-xs font-bold text-slate-500 mb-1.5">Masuk Ke Rekening</label>
+                                    <select id="rekening" required class="w-full px-4 py-3 rounded-xl border border-rose-100 bg-rose-50 focus:border-rose-400 focus:ring-2 focus:ring-rose-100 outline-none text-xs font-bold text-rose-600 transition-all appearance-none cursor-pointer">
+                                        <option value="SeaBank 901061919099">SeaBank 901061919099 (Fifi Alya)</option>
+                                        <option value="Celengan Tunai">Celengan / Tunai</option>
+                                    </select>
                                 </div>
                             </div>
 
                             <div>
-                                <label class="block text-xs font-bold text-slate-500 mb-1.5">Catatan Tambahan (Opsional)</label>
-                                <input type="text" id="catatan" placeholder="Cth: Buat DP rumah masa depan / Makan" class="w-full px-4 py-3 rounded-xl border border-rose-100 bg-white focus:border-rose-400 focus:ring-2 focus:ring-rose-100 outline-none text-sm font-medium transition-all">
+                                <label class="block text-xs font-bold text-slate-500 mb-1.5">Keterangan (Opsional)</label>
+                                <input type="text" id="catatan" placeholder="Keterangan..." class="w-full px-4 py-3 rounded-xl border border-rose-100 bg-white focus:border-rose-400 focus:ring-2 focus:ring-rose-100 outline-none text-sm font-medium transition-all">
                             </div>
 
                             <button type="submit" id="btnSubmit" class="w-full pink-gradient text-white font-extrabold py-4 rounded-xl mt-4 shadow-lg shadow-rose-200 hover:shadow-xl hover:scale-[1.02] transition-all disabled:opacity-50 flex items-center justify-center gap-2">
@@ -173,17 +177,31 @@
 
                     <!-- RIWAYAT LIST -->
                     <div class="lg:col-span-7 glass-card p-6 lg:p-8 flex flex-col h-[650px]">
-                        <h3 class="text-lg font-bold text-slate-800 mb-4 border-b border-rose-100 pb-4 flex items-center gap-2">
-                            <i class="fas fa-history text-rose-400"></i> Detail Riwayat Tabungan
-                        </h3>
+                        
+                        <!-- Header Riwayat dengan Filter & Rekap -->
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 border-b border-rose-100 pb-4 gap-3">
+                            <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                                <i class="fas fa-history text-rose-400"></i> Riwayat Transaksi
+                            </h3>
+                            <div class="flex gap-2 w-full sm:w-auto">
+                                <button onclick="window.tampilkanStatistik()" class="flex-1 sm:flex-none bg-rose-100 hover:bg-rose-200 text-rose-600 text-xs font-bold px-3 py-2 rounded-xl transition-colors flex items-center justify-center gap-1.5">
+                                    <i class="fas fa-chart-pie"></i> Rekap
+                                </button>
+                                <select id="filterRiwayat" onchange="window.updateUI()" class="flex-1 sm:flex-none text-xs bg-white border border-rose-100 text-slate-600 rounded-xl px-3 py-2 font-bold outline-none cursor-pointer appearance-none text-center">
+                                    <option value="30">30 Hari Terakhir</option>
+                                    <option value="bulan">Bulan Ini</option>
+                                    <option value="semua">Semua Riwayat</option>
+                                </select>
+                            </div>
+                        </div>
                         
                         <div id="riwayatKosong" class="flex-1 flex flex-col items-center justify-center text-rose-300 hidden">
                             <i class="fas fa-box-open text-5xl mb-3 opacity-50"></i>
-                            <p class="font-bold">Belum ada catatan.</p>
+                            <p class="font-bold">Tidak ada riwayat.</p>
                             <p class="text-sm">Yuk mulai isi brankas cinta kalian! 💖</p>
                         </div>
 
-                        <div id="daftarRiwayat" class="space-y-4 overflow-y-auto pr-2 flex-1">
+                        <div id="daftarRiwayat" class="space-y-4 overflow-y-auto pr-2 flex-1 pb-4">
                             <!-- Render by Firebase -->
                         </div>
                     </div>
@@ -237,11 +255,6 @@
             return "";
         }
 
-        const isBulanIni = (dateString) => {
-            const date = new Date(dateString); const now = new Date();
-            return date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear();
-        };
-
         const nominalInput = document.getElementById('nominal');
         const teksTerbilang = document.getElementById('teksTerbilang');
 
@@ -266,31 +279,55 @@
             
             document.getElementById('statusKoneksi').innerText = "✅ Connect";
             document.getElementById('statusKoneksi').className = "text-xs font-bold text-emerald-500";
-            updateUI();
+            window.updateUI();
         }, (error) => {
             document.getElementById('statusKoneksi').innerText = "❌ Disconnect";
             document.getElementById('statusKoneksi').className = "text-xs font-bold text-rose-500";
         });
 
-        const updateUI = () => {
+        window.updateUI = () => {
             const list = document.getElementById('daftarRiwayat');
+            const filterVal = document.getElementById('filterRiwayat').value;
+            const now = new Date();
             list.innerHTML = '';
+            
             let total = 0, masukBulan = 0, keluarBulan = 0;
 
-            if(dbTransaksi.length === 0) {
+            // 1. Hitung total berdasarkan SELURUH data (Dashboard)
+            dbTransaksi.forEach(item => {
+                const itemDate = new Date(item.tanggal);
+                const isBulanIni = itemDate.getMonth() === now.getMonth() && itemDate.getFullYear() === now.getFullYear();
+                
+                if(item.jenis === 'nabung') {
+                    total += item.nominal;
+                    if(isBulanIni) masukBulan += item.nominal;
+                } else {
+                    total -= item.nominal;
+                    if(isBulanIni) keluarBulan += item.nominal;
+                }
+            });
+
+            // 2. Filter data untuk ditampilkan di List
+            let dataDitampilkan = dbTransaksi.filter(item => {
+                if(filterVal === 'semua') return true;
+                const itemDate = new Date(item.tanggal);
+                if(filterVal === 'bulan') {
+                    return itemDate.getMonth() === now.getMonth() && itemDate.getFullYear() === now.getFullYear();
+                }
+                if(filterVal === '30') {
+                    const diffTime = Math.abs(now - itemDate);
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+                    return diffDays <= 30;
+                }
+                return true;
+            });
+
+            if(dataDitampilkan.length === 0) {
                 document.getElementById('riwayatKosong').classList.remove('hidden');
             } else {
                 document.getElementById('riwayatKosong').classList.add('hidden');
                 
-                dbTransaksi.forEach(item => {
-                    if(item.jenis === 'nabung') {
-                        total += item.nominal;
-                        if(isBulanIni(item.tanggal)) masukBulan += item.nominal;
-                    } else {
-                        total -= item.nominal;
-                        if(isBulanIni(item.tanggal)) keluarBulan += item.nominal;
-                    }
-
+                dataDitampilkan.forEach(item => {
                     const isNabung = item.jenis === 'nabung';
                     const colorClass = isNabung ? 'text-emerald-500 bg-emerald-50 border-emerald-100' : 'text-rose-500 bg-rose-50 border-rose-100';
                     const icon = isNabung ? 'fa-arrow-down' : 'fa-arrow-up';
@@ -319,11 +356,12 @@
                 });
             }
 
+            // Update Dashboard Angka
             document.getElementById('totalSaldo').innerText = formatRp(total);
             document.getElementById('masukBulanIni').innerText = formatRp(masukBulan);
             document.getElementById('keluarBulanIni').innerText = formatRp(keluarBulan);
 
-            // Progress & Sisa Target
+            // Progress Target
             let persentase = (total / TARGET_TABUNGAN) * 100;
             if(persentase > 100) persentase = 100;
             if(persentase < 0) persentase = 0;
@@ -339,6 +377,46 @@
             }
         };
 
+        // --- FITUR REKAP BULANAN (Satu Klik) ---
+        window.tampilkanStatistik = () => {
+            if(dbTransaksi.length === 0) return Swal.fire('Kosong', 'Belum ada data untuk direkap.', 'info');
+            
+            // Mengelompokkan data per bulan
+            let rekapBulanan = {};
+            dbTransaksi.forEach(item => {
+                const tgl = new Date(item.tanggal);
+                const bulanTahun = tgl.toLocaleString('id-ID', { month: 'long', year: 'numeric' });
+                
+                if(!rekapBulanan[bulanTahun]) rekapBulanan[bulanTahun] = { masuk: 0, keluar: 0 };
+                
+                if(item.jenis === 'nabung') rekapBulanan[bulanTahun].masuk += item.nominal;
+                else rekapBulanan[bulanTahun].keluar += item.nominal;
+            });
+
+            // Membuat tampilan HTML untuk SweetAlert
+            let htmlRekap = '<div class="space-y-4 text-left max-h-[400px] overflow-y-auto px-2">';
+            for(let bln in rekapBulanan) {
+                let saldoBulan = rekapBulanan[bln].masuk - rekapBulanan[bln].keluar;
+                htmlRekap += `
+                    <div class="bg-rose-50 p-4 rounded-2xl border border-rose-100 shadow-sm">
+                        <p class="font-extrabold text-slate-800 border-b border-rose-200 pb-2 mb-3"><i class="far fa-calendar-alt text-rose-500 mr-1"></i> ${bln}</p>
+                        <div class="flex justify-between text-sm mb-1.5"><span class="text-slate-600 font-medium">Uang Masuk:</span> <span class="font-bold text-emerald-500">+ ${formatRp(rekapBulanan[bln].masuk)}</span></div>
+                        <div class="flex justify-between text-sm mb-1.5"><span class="text-slate-600 font-medium">Uang Keluar:</span> <span class="font-bold text-rose-500">- ${formatRp(rekapBulanan[bln].keluar)}</span></div>
+                        <div class="flex justify-between text-sm mt-3 pt-3 border-t border-rose-200"><span class="font-extrabold text-slate-800">Saldo Disimpan:</span> <span class="font-extrabold text-blue-600">${formatRp(saldoBulan)}</span></div>
+                    </div>
+                `;
+            }
+            htmlRekap += '</div>';
+
+            Swal.fire({
+                title: '📈 Rangkuman Bulanan',
+                html: htmlRekap,
+                confirmButtonColor: '#f43f5e',
+                confirmButtonText: 'Tutup Rangkuman',
+                width: '400px'
+            });
+        };
+
         document.getElementById('formTransaksi').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('btnSubmit');
@@ -352,6 +430,7 @@
                 btn.disabled = false; btn.innerHTML = "<i class='fas fa-save'></i> Simpan Tabungan"; return;
             }
 
+            // Hitung total saldo terbaru sebelum menarik uang
             const totalSaatIni = dbTransaksi.reduce((acc, curr) => curr.jenis === 'nabung' ? acc + curr.nominal : acc - curr.nominal, 0);
             if(jenis === 'tarik' && nominalBersih > totalSaatIni) {
                 Swal.fire('Saldo Kurang', 'Saldo tabungan tidak cukup untuk ditarik!', 'error');
@@ -374,7 +453,7 @@
                 e.target.reset(); 
                 document.getElementById('tanggal').valueAsDate = new Date();
                 teksTerbilang.innerText = '';
-                if(jenis === 'tarik') window.switchTab('tarik'); // Reset form tarik tanpa memunculkan area bank
+                if(jenis === 'tarik') window.switchTab('tarik'); 
                 
                 Swal.fire({icon: 'success', title: 'Tersimpan!', toast: true, position: 'top-end', showConfirmButton: false, timer: 1500});
             } catch (error) {
@@ -457,7 +536,7 @@
                 "Pelaku": d.pelaku, "Kategori": d.kategori, "Nominal": d.nominal, 
                 "Transfer Via": d.jenis === 'nabung' ? d.via : '-', 
                 "Tujuan Rekening": d.jenis === 'nabung' ? d.rekening : '-', 
-                "Catatan": d.catatan
+                "Keterangan": d.catatan
             }));
             const ws = XLSX.utils.json_to_sheet(dataSheet); const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, "Tabungan Cinta");
